@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import chillHop from "../assets/data";
+import chillHop from "../data/data";
 
 function useMusic () {
     const musicData = chillHop();
