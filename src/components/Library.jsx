@@ -1,4 +1,5 @@
 import { React, useContext } from "react";
+import { musicContext } from "../containers/App";
 import styled, {css} from "styled-components";
 
 const StyledLibrary = styled.ul`
@@ -71,12 +72,12 @@ const StyledArtist = styled.p`
     font-size: 0.65rem;
 `;
 
-const Library = ({musicState}) => {
-    const {musicData} = musicState;
-    
+const Library = () => {
+    const {playlist} = useContext(musicContext);
+
     return (
         <StyledLibrary>
-            {musicData.map((music) => {
+            {playlist.map((music) => {
                 return (
                     <StyledItem
                         key={music.id} 

@@ -1,13 +1,19 @@
+import React, { createContext } from "react";
+
 import Wrapper from "../components/Wrapper";
 import Topbar from "../components/Topbar";
 import Main from "../components/Main";
 import Display from "../components/Display";
 import Library from "../components/Library";
+import Progress from "../components/Progress";
 
-import Music from "./Music";
+import useMusic from "./useMusic";
 
+// Create Context
+export const musicContext = createContext();
+
+// Global Styles
 import { createGlobalStyle } from "styled-components";
-
 const GlobalStyles = createGlobalStyle`
     @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
@@ -130,18 +136,43 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 function App() {
-    const musicPlayerMachine = Music();
-
+    const {
+        playlist, 
+        activeMusic,
+        progress, 
+        duration,
+        play, 
+        isPlaying,
+        next,
+        prev
+    } = useMusic();
+    
     return (
         <>
             <GlobalStyles />
-            <Wrapper musicState={musicPlayerMachine}>
-                <Topbar />
-                <Main>
-                    <Display musicState={musicPlayerMachine} />
-                    <Library musicState={musicPlayerMachine} />
-                </Main>
-            </Wrapper>
+            <musicContext.Provider 
+                value={
+                    {
+                        playlist, 
+                        activeMusic,
+                        progress,
+                        duration,
+                        play, 
+                        isPlaying, 
+                        next,
+                        prev
+                    }
+                }
+            >
+                <Wrapper>
+                    <Topbar />
+                    <Main>
+                        <Display />
+                        <Library />
+                    </Main>
+                </Wrapper>
+                <Progress />
+            </musicContext.Provider>
         </>
     );
 }

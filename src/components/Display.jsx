@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { musicContext } from "../containers/App";
 import styled from "styled-components";
 
 import { IconContext } from "react-icons";
@@ -60,9 +61,14 @@ const StyledNext = styled.button`
     cursor: pointer;
 `;
 
-const Display = ({ musicState }) => {
-    const {musicData} = musicState;
-    const activeMusic = musicData.find((music) => music.active === true);
+const Display = () => {
+    const {
+        activeMusic, 
+        play, 
+        isPlaying, 
+        next,
+        prev
+    } = useContext(musicContext);
     
     return ( 
         <StyledDisplay>
@@ -83,14 +89,13 @@ const Display = ({ musicState }) => {
 
             <StyledControls>
                 <IconContext.Provider value={{ color: activeMusic.color[0] }}>
-                    <StyledPrev onClick={() => musicState.transition('PREV')}>
+                    <StyledPrev onClick={prev}>
                         <FaStepBackward />
                     </StyledPrev>
-                    <StyledPlay onClick={() => musicState.transition('PLAY')}>
-                        {/* { playing ? <FaRegPauseCircle /> : <FaRegPlayCircle /> } */}
-                        <FaRegPlayCircle />
+                    <StyledPlay onClick={play}>
+                        { isPlaying ? <FaRegPauseCircle /> : <FaRegPlayCircle /> }
                     </StyledPlay>
-                    <StyledNext onClick={() => musicState.transition('NEXT')}>
+                    <StyledNext onClick={next}>
                         <FaStepForward />
                     </StyledNext>
                 </IconContext.Provider>

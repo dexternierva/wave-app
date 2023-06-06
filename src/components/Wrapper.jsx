@@ -1,5 +1,6 @@
-import { React } from "react";
-import styled, {css} from "styled-components";
+import React, { useContext } from "react";
+import { musicContext } from "../containers/App";
+import styled, { css } from "styled-components";
 
 const StyledWrapperOuter = styled.div`
     ${props =>
@@ -18,9 +19,8 @@ const StyledWrapperInner = styled.div`
     backdrop-filter: blur(16px);
 `;
 
-const Wrapper = ({ musicState, children }) => {
-    const {musicData} = musicState;
-    const activeMusic = musicData.find((music) => music.active === true);
+const Wrapper = ({ children }) => {
+    const {activeMusic} = useContext(musicContext);
 
     return (
         <StyledWrapperOuter bg={activeMusic.cover}>
