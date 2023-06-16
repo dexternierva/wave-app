@@ -3,15 +3,13 @@ import { musicContext } from "../containers/App";
 import styled, { css } from "styled-components";
 
 const StyledTrackbarWrap = styled.div`
-    position: relative;
-    bottom: 0;
     width: 100%;
     padding: 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
-    background-color: rgba(var(--surface-clr), 0.5);
+    background-color: rgba(189, 195, 199, 0.5);
 `;
 
 const StyledTrackbar = styled.progress`
@@ -21,23 +19,39 @@ const StyledTrackbar = styled.progress`
     width: 100%;
     height: 1rem;
     border: none;
-    background-color: rgba(var(--primary-clr), 1);
-    accent-color: rgba(var(--accent-clr), 1);
+    background-color: rgba(236, 240, 241, 1);
+    accent-color: rgba(26, 188, 156, 1);
     border-radius: 10px;
     overflow: hidden;
 
     &::-webkit-progress-value {
-        background-color: rgba(var(--accent-clr), 1);
+        background-color: rgba(26, 188, 156, 1);
     }
 
     &::-moz-progress-bar {
-        background-color: rgba(var(--accent-clr), 1);
+        background-color: rgba(26, 188, 156, 1);
     }
+
+    ${props =>
+        props.trackcolor &&
+        css`
+            &::-webkit-progress-value {
+                background-color: ${props.trackcolor};
+            }
+        
+            &::-moz-progress-bar {
+                background-color: ${props.trackcolor};
+            }
+    `}
 `;
 
-const StyledProgress = styled.p``;
+const StyledProgress = styled.p`
+    font-weight: bold;
+`;
 
-const StyledDuration = styled.p``;
+const StyledDuration = styled.p`
+    font-weight: bold;
+`;
 
 const Progress = () => {
     const {activeMusic, progress, duration} = useContext(musicContext);

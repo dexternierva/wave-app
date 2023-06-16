@@ -7,7 +7,7 @@ const StyledLibrary = styled.ul`
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.125rem;
 
     @media (min-width: 768px) {
         flex-basis: 60%;
@@ -73,7 +73,7 @@ const StyledArtist = styled.p`
 `;
 
 const Library = () => {
-    const {playlist} = useContext(musicContext);
+    const {playlist, handleClick} = useContext(musicContext);
 
     return (
         <StyledLibrary>
@@ -83,6 +83,10 @@ const Library = () => {
                         key={music.id} 
                         className={`${music.active === true ? 'active' : ''}`} 
                         hovercolor={music.color[0]}
+                        onClick={ (event) => {
+                            event.preventDefault();
+                            handleClick(music.id);
+                        }}
                     >
                         <StyledFigure>
                             <StyledThumbnail>

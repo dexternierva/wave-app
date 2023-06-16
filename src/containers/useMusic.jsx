@@ -11,6 +11,8 @@ function useMusic () {
     const [isPlaying, setIsPlaying] = useState(false);
     const [duration, setDuration] = useState();
     const [progress, setProgress] = useState();
+    const [isLoading, setIsLoading] = useState(false);
+
     const audioElementRef = useRef(new Audio(activeMusic.audio));
 
     // *** get duration
@@ -19,6 +21,7 @@ function useMusic () {
         const seconds = Math.floor(audioElementRef.current.duration % 60);
         const formattedDuration = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
         setDuration(formattedDuration);
+        setIsLoading(false);
     });
 
     // *** get progress
@@ -86,14 +89,25 @@ function useMusic () {
         setActiveMusic(nextMusic);
     }
 
+    // *** handleClick
+    const handleClick = (id) => {
+        const audioElement = audioElementRef.current;
+        clearAudioElement(audioElement);
+        
+        const clickedItem = playlist.find((music) => music.id === id);
+        setPlaylist(updateActive(clickedItem));
+        setActiveMusic(clickedItem);
+    }
+
     useEffect(() => {
+        setIsLoading(true);
         audioElementRef.current.src = activeMusic.audio
         if (isPlaying) {
-            audioElementRef.current.play(); 
+            audioElementRef.current.play();
         }
     }, [activeMusic]);
     
-    return { playlist, activeMusic, progress, duration, play, isPlaying, next, prev }
+    return { playlist, activeMusic, progress, duration, play, isPlaying, next, prev, handleClick, isLoading }
 };
 
 export default useMusic;
